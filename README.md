@@ -23,7 +23,8 @@ php -m | egrep "(phalcon|pdo_mysql|openssl)"
 
 Database Configuration
 --------------
-php-hmac-rest-api/app/config.php
+Open  `php-hmac-rest-api/app/config.php` and setup your database connection credentials
+
 ```php
 $settings = array(
         'database' => array(
@@ -37,18 +38,29 @@ $settings = array(
 );
 ```
 
-
+Import the tables into your mysql database
 ```bash
 mysql -u root -p api < php-hmac-rest-api/data.sql
 ```
 
+Client Requirements
+-------------
+PHP 5.3
+
+Required PHP Modules
+- Curl
+
+To check for that module
+```bash
+php -m | egrep "(curl)"
+```
+
+
 Client Test
 -------------
 
-Open client-connect.php and make sure the host is pointed to the proper url.
+Open `php-hmac-rest-api/client-connect.php` and make sure the host is pointed to the proper url.
 
 ```bash
 php client-connect.php
 ```
-
-
