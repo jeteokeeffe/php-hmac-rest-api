@@ -45,7 +45,7 @@ mysql -u root -p api < php-hmac-rest-api/data.sql
 
 Client Requirements
 -------------
-PHP 5.3
+PHP 5.3+
 
 Required PHP Modules
 - Curl
@@ -61,6 +61,35 @@ Client Test
 
 Open `php-hmac-rest-api/client-connect.php` and make sure the host is pointed to the proper url.
 
+
+When you're ready to test, go ahead and execute it
 ```bash
 php client-connect.php
+```
+
+Successful Request
+---------------
+
+```http
+POST /ping HTTP/1.1
+Host: api.example.com
+Accept: */*
+API-ID: 1
+API-TIME: 1377469831
+API-HASH: 4cd93cb01ae9a988fbe2922f4ccbc39276ea3626e6016cf80bba32a6447256c5
+Content-Length: 143
+```
+
+Successful Response
+---------------
+
+```http
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 25 Aug 2013 22:27:26 GMT
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+
+pong
 ```

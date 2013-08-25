@@ -30,7 +30,9 @@ if ($result === FALSE) {
 	echo "Curl Error: " . curl_error($ch);
 } else {
 	//print_r(curl_getinfo($ch));	
-	echo "Response: " . $result; 
+	echo "Response:" . PHP_EOL;
+	echo $result; 
+	echo PHP_EOL;
 }
 
 curl_close($ch);
