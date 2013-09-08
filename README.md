@@ -43,6 +43,24 @@ Import the tables into your mysql database
 mysql -u root -p api < php-hmac-rest-api/data.sql
 ```
 
+Routes
+-------------
+Routes are stored in `php-hmac-rest-api/app/config/routes.php` as an array. A route has a method (HEAD, GET, POST, PATCH, DELETE, OPTIONS), uri (which can contain regular expressions) and handler/controller to point to.
+
+```php
+$routes[] = [
+        'method' => 'post',
+        'route' => '/ping',
+        'handler' => ['Controllers\ExampleController', 'pingAction']
+];
+
+$routes[] = [
+        'method' => 'get',
+        'route' => '/ping',
+        'handler' => ['Controllers\ExampleController', 'pingAction']
+];
+```
+
 Client Requirements
 -------------
 PHP 5.3+
