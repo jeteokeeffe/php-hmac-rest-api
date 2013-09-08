@@ -8,7 +8,6 @@
  */
 
 $autoload = [
-	'Database' => $dir . '/library/database/',
 	'Micro\Events' => $dir . '/library/micro/events/',
 	'Micro\Messages' => $dir . '/library/micro/messages/',
 	'Utilities\Debug' => $dir . '/library/utilities/debug/',

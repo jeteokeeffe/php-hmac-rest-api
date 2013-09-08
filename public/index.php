@@ -55,7 +55,7 @@ try {
 
 	// Setup REST Routes
 	$app->setRoutes($routes);
-$error = $warning;
+
 	// Boom, Run
 	$app->run();
 

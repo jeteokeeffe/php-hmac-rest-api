@@ -91,6 +91,7 @@ Server Test
 With php 5.4, you can use its builtin web server to quickly test functionality. Make sure to be in the public directory when executing the command below.
 
 ```bash
+cd php-hmac-rest-api/public
 php -S localhost:8000 ../.htrouter.php
 ```
 
