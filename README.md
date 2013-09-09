@@ -104,6 +104,32 @@ cd php-hmac-rest-api
 php client-connect.php localhost:8000
 ```
 
+Full Example with output from client app
+```bash
+php client-connect.php localhost:8000
+
+Request: 
+POST /ping HTTP/1.1
+Host: localhost:8000
+Accept: */*
+API_ID: 1
+API_TIME: 1378703314
+API_HASH: de7cd08ab75120791396af887a8b6de7734b211dbe2d443286ed91848f916190
+Content-Length: 142
+Expect: 100-continue
+Content-Type: multipart/form-data; boundary=----------------------------5d9301537cda
+
+
+Response:
+HTTP/1.1 200 OK
+Host: localhost:8000
+Connection: close
+X-Powered-By: PHP/5.4.9-4ubuntu2.3
+Content-type: text/html
+
+pong
+```
+
 Successful Request
 ---------------
 
@@ -111,9 +137,9 @@ Successful Request
 POST /ping HTTP/1.1
 Host: api.example.com
 Accept: */*
-API-ID: 1
-API-TIME: 1377469831
-API-HASH: 4cd93cb01ae9a988fbe2922f4ccbc39276ea3626e6016cf80bba32a6447256c5
+API_ID: 1
+API_TIME: 1377469831
+API_HASH: 4cd93cb01ae9a988fbe2922f4ccbc39276ea3626e6016cf80bba32a6447256c5
 Content-Length: 143
 ```
 
