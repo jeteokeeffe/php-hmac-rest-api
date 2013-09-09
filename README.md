@@ -91,9 +91,10 @@ Open `php-hmac-rest-api/client-connect.php` and make sure the host is pointed to
 
 When you're ready to test, go ahead and execute it (client application by default points to api.example.com)
 ```bash
+cd php-hmac-rest-api
 php client-connect.php
 ```
-Note, if you're using PHP 5.4 built web server (example below) and on the same box, make sure you point the client to server.
+Note, if you're using PHP 5.4 built web server (example above) and on the same box, make sure you point the client to the proper server.
 
 ```bash
 cd php-hmac-rest-api
