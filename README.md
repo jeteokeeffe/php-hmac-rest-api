@@ -73,18 +73,6 @@ To check for that module
 php -m | egrep "(curl)"
 ```
 
-
-Client Test
--------------
-
-Open `php-hmac-rest-api/client-connect.php` and make sure the host is pointed to the proper url.
-
-
-When you're ready to test, go ahead and execute it
-```bash
-php client-connect.php
-```
-
 Server Test
 -------------
 
@@ -93,6 +81,23 @@ With php 5.4, you can use its builtin web server to quickly test functionality. 
 ```bash
 cd php-hmac-rest-api/public
 php -S localhost:8000 ../.htrouter.php
+```
+
+Client Test
+-------------
+
+Open `php-hmac-rest-api/client-connect.php` and make sure the host is pointed to the proper url.
+
+
+When you're ready to test, go ahead and execute it (client application by default points to api.example.com)
+```bash
+php client-connect.php
+```
+Note, if you're using PHP 5.4 built web server (example below) and on the same box, make sure you point the client to server.
+
+```bash
+cd php-hmac-rest-api
+php client-connect.php localhost:8000
 ```
 
 Successful Request
