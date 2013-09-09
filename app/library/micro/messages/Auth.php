@@ -36,6 +36,7 @@ class Auth {
 	 */
 	protected $_hash;
 
+
 	public function __construct($id, $time, $hash, $data) {
 		$this->_id = $id;	
 		$this->_hash = $hash;

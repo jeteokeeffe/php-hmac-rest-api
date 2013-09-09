@@ -5,6 +5,9 @@ PHP HMAC Restful API that uses Phalcon Micro framework
 
 The framework requires PHP 5.4+ (Could run on 5.3 if you replace 5.4 array syntax with the older php version)
 
+Why do this?
+http://www.thebuzzmedia.com/designing-a-secure-rest-api-without-oauth-authentication/
+
 Requirements
 ---------
 PHP 5.4 or greater
@@ -66,11 +69,11 @@ Client Requirements
 PHP 5.3+
 
 Required PHP Modules
-- Curl
+- Curl (http://php.net/curl)
 
 To check for that module
 ```bash
-php -m | egrep "(curl)"
+php -m | grep -i "curl"
 ```
 
 Server Test

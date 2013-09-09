@@ -15,7 +15,7 @@ $data = ['name' => 'bob'];
 $message = buildMessage($time, $id, $data);
 
 $hash = hash_hmac('sha256', $message, $privateKey);
-$headers = ['API-ID: ' . $id, 'API-TIME: ' . $time, 'API-HASH: ' . $hash];
+$headers = ['API_ID: ' . $id, 'API_TIME: ' . $time, 'API_HASH: ' . $hash];
 
 
 $ch = curl_init();
