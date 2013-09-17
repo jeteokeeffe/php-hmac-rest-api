@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Driver for PHP HMAC Restful API
+ * Driver for PHP HMAC Restful API using PhalconPHP's Micro framework
  * 
  * @package None
  * @author  Jete O'Keeffe 
@@ -27,7 +27,6 @@ $config = $configPath . 'config.php';
 $autoLoad = $configPath . 'autoload.php';
 $routes = $configPath . 'routes.php';
 
-use \Security\Hmac\HmacAuthenticate as Hmac;
 use \Models\Api as Api;
 
 try {
@@ -36,11 +35,11 @@ try {
 	// Record any php warnings/errors
 	set_error_handler(['Utilities\Debug\PhpError','errorHandler']);
 
-	// Setup Micro App (dependency injector, )
+	// Setup App (dependency injector, configuration variables and autoloading resources/classes)
 	$app->setAutoload($autoLoad, $appDir);
 	$app->setConfig($config);
 
-	// Get Authentication Headers
+	// Get Authentication Headers sent from user
 	$clientId = $app->request->getHeader('API-ID');
 	$time = $app->request->getHeader('API-TIME');
 	$hash = $app->request->getHeader('API-HASH');
@@ -50,17 +49,18 @@ try {
 	$data = ${"_" . $_SERVER['REQUEST_METHOD']};
 	$message = new \Micro\Messages\Auth($clientId, $time, $hash, $data);
 
-	// Check Authentication
+	// Setup HMAC Authentication callback to validate user before routing message
+	// Failure to validate will stop the process before going to proper Restful Route
 	$app->setEvents(new \Micro\Events\HmacAuthenticate($message, $privateKey));	
 
-	// Setup REST Routes
+	// Setup RESTful Routes
 	$app->setRoutes($routes);
-$error = $warning;
+
 	// Boom, Run
 	$app->run();
 
 } catch(Exception $e) {
-	// Do Something I guess
+	// Do Something I guess, return Server Error message
 	$app->response->setStatusCode(500, "Server Error");
 	$app->response->setContent($e->getMessage());
 	$app->response->send();

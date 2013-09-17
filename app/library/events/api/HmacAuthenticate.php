@@ -3,13 +3,13 @@
 /**
  * Event that Authenticates the client message with HMac 
  *
- * @package Micro
- * @subpackage Events
+ * @package Events
+ * @subpackage Api
  * @author Jete O'Keeffe
  * @version 1.0
  */
 
-namespace Micro\Events;
+namespace Events\Api;
 
 use Interfaces\IEvent as IEvent;
 
