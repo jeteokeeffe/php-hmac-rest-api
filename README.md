@@ -5,6 +5,9 @@ PHP HMAC Restful API that uses Phalcon Micro framework
 
 The framework requires PHP 5.4+ (Could run on 5.3 if you replace 5.4 array syntax with the older php version)
 
+Why do this?
+http://www.thebuzzmedia.com/designing-a-secure-rest-api-without-oauth-authentication/
+
 Requirements
 ---------
 PHP 5.4 or greater
@@ -12,7 +15,7 @@ PHP 5.4 or greater
 
 Required PHP Modules
 - OpenSSL
-- Phalcon
+- Phalcon (http://phalconphp.com/en/download)
 - PDO-MySQL
 
 
@@ -69,13 +72,23 @@ Client Requirements
 PHP 5.3+
 
 Required PHP Modules
-- Curl
+- Curl (http://php.net/curl)
 
 To check for that module
 ```bash
-php -m | egrep "(curl)"
+$ php -m | grep -i "curl"
+curl
 ```
 
+Server Test
+-------------
+
+With `PHP 5.4`, you can use its builtin web server to quickly test functionality. Make sure to be in the public directory when executing the command below.
+
+```bash
+cd php-hmac-rest-api/public
+php -S localhost:8000 ../.htrouter.php
+```
 
 Client Test
 -------------
@@ -83,9 +96,42 @@ Client Test
 Open `php-hmac-rest-api/client-connect.php` and make sure the host is pointed to the proper url.
 
 
-When you're ready to test, go ahead and execute it
+When you're ready to test, go ahead and execute it (client application by default points to api.example.com)
 ```bash
+cd php-hmac-rest-api
 php client-connect.php
+```
+Note, if you're using PHP 5.4 built web server (example above) and on the same box, make sure you point the client to the proper server.
+
+```bash
+cd php-hmac-rest-api
+php client-connect.php localhost:8000
+```
+
+Full Example with output from client app
+```bash
+php client-connect.php localhost:8000
+
+Request: 
+POST /ping HTTP/1.1
+Host: localhost:8000
+Accept: */*
+API_ID: 1
+API_TIME: 1378703314
+API_HASH: de7cd08ab75120791396af887a8b6de7734b211dbe2d443286ed91848f916190
+Content-Length: 142
+Expect: 100-continue
+Content-Type: multipart/form-data; boundary=----------------------------5d9301537cda
+
+
+Response:
+HTTP/1.1 200 OK
+Host: localhost:8000
+Connection: close
+X-Powered-By: PHP/5.4.9-4ubuntu2.3
+Content-type: text/html
+
+pong
 ```
 
 Successful Request
@@ -95,9 +141,9 @@ Successful Request
 POST /ping HTTP/1.1
 Host: api.example.com
 Accept: */*
-API-ID: 1
-API-TIME: 1377469831
-API-HASH: 4cd93cb01ae9a988fbe2922f4ccbc39276ea3626e6016cf80bba32a6447256c5
+API_ID: 1
+API_TIME: 1377469831
+API_HASH: 4cd93cb01ae9a988fbe2922f4ccbc39276ea3626e6016cf80bba32a6447256c5
 Content-Length: 143
 ```
 

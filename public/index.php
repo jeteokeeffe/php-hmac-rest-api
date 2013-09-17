@@ -39,10 +39,10 @@ try {
 	$app->setAutoload($autoLoad, $appDir);
 	$app->setConfig($config);
 
-	// Get Authentication Headers sent from user
-	$clientId = $app->request->getHeader('API-ID');
-	$time = $app->request->getHeader('API-TIME');
-	$hash = $app->request->getHeader('API-HASH');
+	// Get Authentication Headers
+	$clientId = $app->request->getHeader('API_ID');
+	$time = $app->request->getHeader('API_TIME');
+	$hash = $app->request->getHeader('API_HASH');
 
 	$privateKey = Api::findFirst($clientId)->private_key;
 	
