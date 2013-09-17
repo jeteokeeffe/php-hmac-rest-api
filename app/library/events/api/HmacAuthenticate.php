@@ -57,7 +57,7 @@ class HmacAuthenticate extends \Phalcon\Events\Manager implements IEvent {
 				$serverHash = hash_hmac('sha256', $data, $this->_privateKey);
 				$clientHash = $this->_msg->getHash();
 
-				echo "$this->_privateKey $clientHash === $serverHash ";
+				//echo "$this->_privateKey $clientHash === $serverHash ";
 				$allowed = $clientHash === $serverHash ?: FALSE;
 				
 				if (!$allowed) {
