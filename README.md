@@ -15,13 +15,16 @@ PHP 5.4 or greater
 
 Required PHP Modules
 - OpenSSL
-- Phalcon
+- Phalcon (http://phalconphp.com/en/download)
 - PDO-MySQL
 
 
 To check for those modules
 ```bash
-php -m | egrep "(phalcon|pdo_mysql|openssl)"
+$ php -m | egrep "(phalcon|pdo_mysql|openssl)"
+phalcon
+pdo_mysql
+openssl
 ```
 
 Database Configuration
@@ -31,11 +34,11 @@ Open  `php-hmac-rest-api/app/config.php` and setup your database connection cred
 ```php
 $settings = array(
         'database' => array(
-                'adapter' => 'Mysql',
-                'host' => 'localhost',
-                'username' => 'test',
-                'password' => 'test',
-                'name' => 'api',
+                'adapter' => 'Mysql',	/* Possible Values: Mysql, Postgres, Sqlite */
+                'host' => 'your_ip_or_hostname',
+                'username' => 'your_username',
+                'password' => 'your_password',
+                'name' => 'your_database_schema',
                 'port' => 3306
         ),
 );
@@ -43,7 +46,7 @@ $settings = array(
 
 Import the tables into your mysql database
 ```bash
-mysql -u root -p api < php-hmac-rest-api/data.sql
+mysql -u root -p your_database_schema < php-hmac-rest-api/data.sql
 ```
 
 Routes
@@ -73,13 +76,14 @@ Required PHP Modules
 
 To check for that module
 ```bash
-php -m | grep -i "curl"
+$ php -m | grep -i "curl"
+curl
 ```
 
 Server Test
 -------------
 
-With php 5.4, you can use its builtin web server to quickly test functionality. Make sure to be in the public directory when executing the command below.
+With `PHP 5.4`, you can use its builtin web server to quickly test functionality. Make sure to be in the public directory when executing the command below.
 
 ```bash
 cd php-hmac-rest-api/public
