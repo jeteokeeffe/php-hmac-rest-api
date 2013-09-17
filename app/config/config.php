@@ -6,7 +6,7 @@
 
 $settings = array(
 	'database' => array(
-		'adapter' => 'Mysql',
+		'adapter' => 'Mysql',	/* Possible Values: Mysql, Postgres, Sqlite */
 		'host' => 'localhost',
 		'username' => 'test',
 		'password' => 'test',

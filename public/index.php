@@ -51,7 +51,7 @@ try {
 
 	// Setup HMAC Authentication callback to validate user before routing message
 	// Failure to validate will stop the process before going to proper Restful Route
-	$app->setEvents(new \Micro\Events\HmacAuthenticate($message, $privateKey));	
+	$app->setEvents(new \Events\Api\HmacAuthenticate($message, $privateKey));	
 
 	// Setup RESTful Routes
 	$app->setRoutes($routes);

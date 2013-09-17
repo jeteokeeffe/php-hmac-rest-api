@@ -8,7 +8,7 @@
  */
 
 $autoload = [
-	'Micro\Events' => $dir . '/library/micro/events/',
+	'Events\Api' => $dir . '/library/events/api/',
 	'Micro\Messages' => $dir . '/library/micro/messages/',
 	'Utilities\Debug' => $dir . '/library/utilities/debug/',
 	'Security\Hmac' => $dir . '/library/security/hmac/',

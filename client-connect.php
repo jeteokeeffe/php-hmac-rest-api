@@ -1,5 +1,9 @@
 <?php
 
+if (!function_exists('curl_init')) {
+	die('Curl module not installed!' . PHP_EOL);
+}
+
 if (isset($argv[1])) {
 	$host = 'http://' . $argv[1] . '/ping';
 } else {
