@@ -1,6 +1,8 @@
 php-hmac-rest-api
 =================
 
+Donations appreciated Bitcoin: 1EBCsnpYftigYFSpZtXWFjRTAgPb3EdZZh
+
 PHP HMAC Restful API that uses Phalcon Micro framework
 
 The framework requires PHP 5.4+ (Could run on 5.3 if you replace 5.4 array syntax with the older php version)
