@@ -68,12 +68,16 @@ $routes[] = [
         'handler' => ['Controllers\ExampleController', 'pingAction']
 ];
 
+// Example of a route with a parameter (id)
 $routes[] = [
         'method' => 'get',
         'route' => '/test/{id}',
         'handler' => ['Controllers\ExampleController', 'testAction']
 ];
 ```
+
+Note: For Routes with Paramters, make sure the action you map to has the proper parameters set (in order to read paramters correctly). 
+http://docs.phalconphp.com/en/latest/reference/micro.html#defining-routes
 
 Client Requirements
 -------------

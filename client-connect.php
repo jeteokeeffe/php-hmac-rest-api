@@ -6,6 +6,7 @@ if (!function_exists('curl_init')) {
 
 
 $route = '/ping';
+//$route = '/test/4';
 
 if (isset($argv[1])) {
 	$host = 'http://' . $argv[1] . $route;
