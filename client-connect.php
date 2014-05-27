@@ -4,10 +4,13 @@ if (!function_exists('curl_init')) {
 	die('Curl module not installed!' . PHP_EOL);
 }
 
+
+$route = '/ping';
+
 if (isset($argv[1])) {
-	$host = 'http://' . $argv[1] . '/ping';
+	$host = 'http://' . $argv[1] . $route;
 } else {
-	$host = "http://api.example.com/ping";
+	$host = "http://api.example.com" . $route;
 }
 
 $privateKey = '593fe6ed77014f9507761028801aa376f141916bd26b1b3f0271b5ec3135b989';

@@ -67,6 +67,12 @@ $routes[] = [
         'route' => '/ping',
         'handler' => ['Controllers\ExampleController', 'pingAction']
 ];
+
+$routes[] = [
+        'method' => 'get',
+        'route' => '/test/{id}',
+        'handler' => ['Controllers\ExampleController', 'testAction']
+];
 ```
 
 Client Requirements
