@@ -25,8 +25,8 @@ class PhpError {
 	public static function errorHandler($errNo, $errStr, $errFile, $errLine) {
 
 		if ($errNo != E_STRICT) {
-            self::logToDb($errNo, $errStr, $errFile, $errLine);
-            //self::logToSyslog($errNo, $errStr, $errFile, $errLine);
+            //self::logToDb($errNo, $errStr, $errFile, $errLine);
+            self::logToSyslog($errNo, $errStr, $errFile, $errLine);
 		}
 	}
 
@@ -51,7 +51,7 @@ class PhpError {
      * @return bool
      */
     public static function logToSyslog($errNo, $errStr, $errFile, $errLine) {
-        $msg = sprintf("%s (errno: %d) on %s:%d", $errStr, $errNo, $errFile, $errLine);
+        $msg = sprintf("%s (errno: %d) in %s:%d", $errStr, $errNo, $errFile, $errLine);
 
         if (openlog("php-errors", LOG_PID | LOG_PERROR, LOG_LOCAL7)) {
             syslog(LOG_ERR, $msg);
