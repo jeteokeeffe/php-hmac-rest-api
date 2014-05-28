@@ -58,7 +58,13 @@ class HmacAuthenticate extends \Phalcon\Events\Manager implements IEvent {
 				$clientHash = $this->_msg->getHash();
 
 				//echo "$this->_privateKey $clientHash === $serverHash ";
-				$allowed = $clientHash === $serverHash ?: FALSE;
+
+
+                if (in_array($app->router->getMatchedRoute()->getPattern(), $app->getUnauthenticated(), TRUE)) {
+                    $allowed = TRUE;
+                } else {
+                    $allowed = $clientHash === $serverHash ?: FALSE;
+                }
 				
 				if (!$allowed) {
 					$app->response->setStatusCode(401, "Unauthorized");

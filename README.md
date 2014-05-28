@@ -74,6 +74,14 @@ $routes[] = [
         'route' => '/test/{id}',
         'handler' => ['Controllers\ExampleController', 'testAction']
 ];
+
+// Example of skipping HMAC authentication on a single page
+$routes[] = [
+        'method' => 'post',
+        'route' => '/skip/{name}',
+        'handler' => ['Controllers\ExampleController', 'skipAction'],
+        'no-authentication' => FALSE
+];
 ```
 
 Note: For Routes with Paramters, make sure the action you map to has the proper parameters set (in order to read paramters correctly). 

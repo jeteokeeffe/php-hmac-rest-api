@@ -55,10 +55,6 @@ try {
 
 	// Setup RESTful Routes
 	$app->setRoutes($routes);
-    $app->notFound(function () use ($app) {
-        $app->response->setStatusCode(404, "Not Found")->sendHeaders();
-        echo 'Page not Found!';
-    });
 
 	// Boom, Run
 	$app->run();

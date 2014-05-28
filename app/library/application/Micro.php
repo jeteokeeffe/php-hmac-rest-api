@@ -22,10 +22,17 @@ use Interfaces\IRun as IRun;
 
 class Micro extends \Phalcon\Mvc\Micro implements IRun {
 
+    /**
+     * Pages that doesn't require authentication
+     * @var array
+     */
+    protected $_noAuthPages;
+
 	/**
 	 * Constructor of the App
 	 */
 	public function __construct() {
+        $this->_noAuthPages = array();
 	}
 
 	/**
@@ -101,6 +108,12 @@ class Micro extends \Phalcon\Mvc\Micro implements IRun {
 
 		if (!empty($routes)) {
 			foreach($routes as $obj) {
+
+                // Which pages are allowed to skip authentication
+                if (isset($obj['authentication']) && $obj['authentication'] === FALSE) {
+                    $this->_noAuthPages[] = $obj['route'];
+                }
+
 				switch($obj['method']) {
 					case 'get':
 						$this->get($obj['route'], $obj['handler']);
@@ -136,6 +149,12 @@ class Micro extends \Phalcon\Mvc\Micro implements IRun {
 		$this->setEventsManager($events);
 	}
 
+    /**
+     *
+     */
+    public function getUnauthenticated() {
+        return $this->_noAuthPages;
+    }
 	/**
 	 * Main run block that executes the micro application
 	 *
