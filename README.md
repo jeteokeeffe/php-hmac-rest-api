@@ -50,6 +50,10 @@ Import the tables into your mysql database
 ```bash
 mysql -u root -p your_database_schema < php-hmac-rest-api/mysql.data.sql
 ```
+Import the tables into your Postgres Server
+```bash
+psql -U root -W -f postgres.data.sql your_database_schema
+```
 
 Routes
 -------------
