@@ -4,7 +4,7 @@
  * Small Micro application to run simple/rest based applications
  *
  * @package Application
- * @author Jete O'Keeffe 
+ * @author Jete O'Keeffe
  * @version 1.0
  * @link http://docs.phalconphp.com/en/latest/reference/micro.html
  * @example
@@ -68,7 +68,7 @@ class Micro extends \Phalcon\Mvc\Micro implements IRun {
 				throw new Exception('Bad Database Adapter');
 			}
 
-			return $connection;		
+			return $connection;
 		});
 
 		$this->setDI($di);
@@ -89,7 +89,7 @@ class Micro extends \Phalcon\Mvc\Micro implements IRun {
 		// Set dir to be used inside include file
 		$namespaces = include $file;
 
-		$loader = new \Phalcon\Loader(); 
+		$loader = new \Phalcon\Loader();
 		$loader->registerNamespaces($namespaces)->register();
 	}
 
@@ -110,8 +110,15 @@ class Micro extends \Phalcon\Mvc\Micro implements IRun {
 			foreach($routes as $obj) {
 
                 // Which pages are allowed to skip authentication
-                if (isset($obj['authentication']) && $obj['authentication'] === FALSE) {
-                    $this->_noAuthPages[] = $obj['route'];
+                if (isset($obj['authentication']) && $obj['authentication'] === false) {
+
+                    $method = strtolower($obj['method']);
+
+                    if (! isset($this->noAuthPages[$method])) {
+                        $this->noAuthPages[$method] = array();
+                    }
+
+                    $this->noAuthPages[$method][] = $obj['route'];
                 }
 
 				switch($obj['method']) {

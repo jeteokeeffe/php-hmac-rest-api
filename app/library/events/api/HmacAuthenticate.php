@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Event that Authenticates the client message with HMac 
+ * Event that Authenticates the client message with HMac
  *
  * @package Events
  * @subpackage Api
@@ -16,7 +16,7 @@ use Interfaces\IEvent as IEvent;
 class HmacAuthenticate extends \Phalcon\Events\Manager implements IEvent {
 
 	/**
-	 * Hmac Message 
+	 * Hmac Message
 	 * @var object
 	 */
 	protected $_msg;
@@ -26,11 +26,11 @@ class HmacAuthenticate extends \Phalcon\Events\Manager implements IEvent {
 	 * @var string
 	 */
 	protected $_privateKey;
-	
+
 	/**
 	 * Constructor
 	 *
-	 * @param object 
+	 * @param object
 	 * @param string
 	 */
 	public function __construct($message, $privateKey) {
@@ -43,35 +43,38 @@ class HmacAuthenticate extends \Phalcon\Events\Manager implements IEvent {
 
 	/**
 	 * Setup an Event
-	 * 
+	 *
 	 * Phalcon event to make sure client sends a valid message
 	 * @return FALSE|void
-	 */	
+	 */
 	public function handleEvent() {
-	
+
 		$this->attach('micro', function ($event, $app) {
 			if ($event->getType() == 'beforeExecuteRoute') {
-				
+
 				// Need to refactor this
-				$data = $this->_msg->getTime() . $this->_msg->getId() . implode($this->_msg->getData());
-				$serverHash = hash_hmac('sha256', $data, $this->_privateKey);
-				$clientHash = $this->_msg->getHash();
+				$data = $this->msg->getTime() . $this->msg->getId() . implode($this->msg->getData());
+				$serverHash = hash_hmac('sha256', $data, $this->privateKey);
+				$clientHash = $this->msg->getHash();
+				$allowed = $clientHash === $serverHash ?: false;
 
-				//echo "$this->_privateKey $clientHash === $serverHash ";
+				$method = strtolower($app->router->getMatchedRoute()->getHttpMethods());
+				$unAuthenticated = $app->getUnauthenticated();
 
+				if (isset($unAuthenticated[$method])) {
+					$unAuthenticated = array_flip($unAuthenticated[$method]);
 
-                if (in_array($app->router->getMatchedRoute()->getPattern(), $app->getUnauthenticated(), TRUE)) {
-                    $allowed = TRUE;
-                } else {
-                    $allowed = $clientHash === $serverHash ?: FALSE;
-                }
-				
+					if (isset($unAuthenticated[$app->router->getMatchedRoute()->getPattern()])) {
+						$allowed = true;
+					}
+				}
+
 				if (!$allowed) {
 					$app->response->setStatusCode(401, "Unauthorized");
 					$app->response->setContent("Access denied");
 					$app->response->send();
 
-					return FALSE;
+					return false;
 				}
 			}
 		});
