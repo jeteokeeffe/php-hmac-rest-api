@@ -132,6 +132,9 @@ class Micro extends \Phalcon\Mvc\Micro implements IRun {
 						$this->delete($obj['route'], $obj['handler']);
 						break;
 					case 'put':
+						$this->put($obj['route'], $obj['handler']);
+						break;
+					case 'head':
 						$this->head($obj['route'], $obj['handler']);
 						break;
 					case 'options':
