@@ -6,7 +6,7 @@ class ExampleController extends \Phalcon\Mvc\Controller {
 
 
 	public function pingAction() {
-        new Jete();
+
 		echo "pong";
 	}
 
