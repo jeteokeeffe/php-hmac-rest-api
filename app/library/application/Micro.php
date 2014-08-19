@@ -114,11 +114,11 @@ class Micro extends \Phalcon\Mvc\Micro implements IRun {
 
                     $method = strtolower($obj['method']);
 
-                    if (! isset($this->noAuthPages[$method])) {
-                        $this->noAuthPages[$method] = array();
+                    if (! isset($this->_noAuthPages[$method])) {
+                        $this->_noAuthPages[$method] = array();
                     }
 
-                    $this->noAuthPages[$method][] = $obj['route'];
+                    $this->_noAuthPages[$method][] = $obj['route'];
                 }
 
 				switch($obj['method']) {
