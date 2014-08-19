@@ -53,9 +53,9 @@ class HmacAuthenticate extends \Phalcon\Events\Manager implements IEvent {
 			if ($event->getType() == 'beforeExecuteRoute') {
 
 				// Need to refactor this
-				$data = $this->msg->getTime() . $this->msg->getId() . implode($this->msg->getData());
+				$data = $this->_msg->getTime() . $this->_msg->getId() . implode($this->_msg->getData());
 				$serverHash = hash_hmac('sha256', $data, $this->privateKey);
-				$clientHash = $this->msg->getHash();
+				$clientHash = $this->_msg->getHash();
 				$allowed = $clientHash === $serverHash ?: false;
 
 				$method = strtolower($app->router->getMatchedRoute()->getHttpMethods());
