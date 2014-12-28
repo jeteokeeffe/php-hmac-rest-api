@@ -53,7 +53,7 @@ class PhpError {
     public static function logToSyslog($errNo, $errStr, $errFile, $errLine) {
         $msg = sprintf("%s (errno: %d) in %s:%d", $errStr, $errNo, $errFile, $errLine);
 
-        if (openlog("php-errors", LOG_PID | LOG_PERROR, LOG_LOCAL7)) {
+        if (openlog("php-errors", LOG_PID | LOG_PERROR, LOG_SYSLOG)) {
             syslog(LOG_ERR, $msg);
             return closelog();
         }
