@@ -54,7 +54,7 @@ class HmacAuthenticate extends \Phalcon\Events\Manager implements IEvent {
 
 				// Need to refactor this
 				$data = $this->_msg->getTime() . $this->_msg->getId() . implode($this->_msg->getData());
-				$serverHash = hash_hmac('sha256', $data, $this->privateKey);
+				$serverHash = hash_hmac('sha256', $data, $this->_privateKey);
 				$clientHash = $this->_msg->getHash();
 				$allowed = $clientHash === $serverHash ?: false;
 
