@@ -28,6 +28,12 @@ class HmacAuthenticate extends \Phalcon\Events\Manager implements IEvent {
 	protected $_privateKey;
 
 	/**
+	 * Max accepted request delay time
+	 * @var int
+	 */
+	protected $_maxRequestDelay = 300; //5 minutes
+
+	/**
 	 * Constructor
 	 *
 	 * @param object
@@ -53,10 +59,13 @@ class HmacAuthenticate extends \Phalcon\Events\Manager implements IEvent {
 			if ($event->getType() == 'beforeExecuteRoute') {
 
 				// Need to refactor this
-				$data = $this->_msg->getTime() . $this->_msg->getId() . implode($this->_msg->getData());
+				$iRequestTime = $this->_msg->getTime();
+				$data = $iRequestTime . $this->_msg->getId() . implode($this->_msg->getData());
 				$serverHash = hash_hmac('sha256', $data, $this->_privateKey);
 				$clientHash = $this->_msg->getHash();
 				$allowed = $clientHash === $serverHash ?: false;
+
+				$validTime = time() - $iRequestTime <= $this->_maxRequestDelay;
 
 				$method = strtolower($app->router->getMatchedRoute()->getHttpMethods());
 				$unAuthenticated = $app->getUnauthenticated();
@@ -67,6 +76,10 @@ class HmacAuthenticate extends \Phalcon\Events\Manager implements IEvent {
 					if (isset($unAuthenticated[$app->router->getMatchedRoute()->getPattern()])) {
 						$allowed = true;
 					}
+				}
+
+				if (!$validTime) {
+					$allowed = false;
 				}
 
 				if (!$allowed) {
