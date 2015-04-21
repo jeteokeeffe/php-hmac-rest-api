@@ -111,16 +111,16 @@ class Micro extends \Phalcon\Mvc\Micro implements IRun {
 			foreach($routes as $obj) {
 				
 			    // Which pages are allowed to skip authentication
--                		if (isset($obj['authentication']) && $obj['authentication'] === false) {
--
--                    		$method = strtolower($obj['method']);
--
-		-                    if (! isset($this->_noAuthPages[$method])) {
-		-                        $this->_noAuthPages[$method] = array();
-		-                    }
--
-		-                    $this->_noAuthPages[$method][] = $obj['route'];
-		-                }
+                            if (isset($obj['authentication']) && $obj['authentication'] === false) {
+
+                            $method = strtolower($obj['method']);
+
+                                if (! isset($this->_noAuthPages[$method])) {
+                                    $this->_noAuthPages[$method] = array();
+                                }
+
+                                $this->_noAuthPages[$method][] = $obj['route'];
+                            }
 
                             $controllerName = class_exists($obj['handler'][0]) ? $obj['handler'][0] : false;
                             if (!$controllerName) {
