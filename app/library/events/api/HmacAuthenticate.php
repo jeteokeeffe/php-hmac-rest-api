@@ -58,37 +58,46 @@ class HmacAuthenticate extends \Phalcon\Events\Manager implements IEvent {
 		$this->attach('micro', function ($event, $app) {
 			if ($event->getType() == 'beforeExecuteRoute') {
 
-				// Need to refactor this
 				$iRequestTime = $this->_msg->getTime();
 				$data = $iRequestTime . $this->_msg->getId() . implode($this->_msg->getData());
 				$serverHash = hash_hmac('sha256', $data, $this->_privateKey);
 				$clientHash = $this->_msg->getHash();
-				$allowed = $clientHash === $serverHash ?: false;
+                                
+                                // security checks, deny access by default
+                                $allowed = false;
+				if ($clientHash === $serverHash) { // 1st security level - check hashes
+                                    
+                                    if ((time() - $iRequestTime) <= $this->_maxRequestDelay) { // 2nd security level - ensure request time hasn't expired
+                                        
+                                        $allowed = true; // gain access, everyting ok
+                                        
+                                    }
+                                    
+                                }
+                                
+                                if (!$allowed) { // already authorized skip this part
+                                    
+                                    // last try - login without auth for open calls
+                                    $method = strtolower($app->router->getMatchedRoute()->getHttpMethods());
+                                    $unAuthenticated = $app->getUnauthenticated();
 
-				$validTime = time() - $iRequestTime <= $this->_maxRequestDelay;
+                                    if (isset($unAuthenticated[$method])) {
+                                            $unAuthenticated = array_flip($unAuthenticated[$method]);
 
-				$method = strtolower($app->router->getMatchedRoute()->getHttpMethods());
-				$unAuthenticated = $app->getUnauthenticated();
+                                            if (isset($unAuthenticated[$app->router->getMatchedRoute()->getPattern()])) {
+                                                    return true; // gain access to open call
+                                            } 
+                                    }
+                                    
+                                    // still not authorized, get out of here
+                                    $app->response->setStatusCode(401, "Unauthorized");
+                                    $app->response->setContent("Access denied");
+                                    $app->response->send();
 
-				if (isset($unAuthenticated[$method])) {
-					$unAuthenticated = array_flip($unAuthenticated[$method]);
+                                    return false;
+                                    
+                                }
 
-					if (isset($unAuthenticated[$app->router->getMatchedRoute()->getPattern()])) {
-						$allowed = true;
-					}
-				}
-
-				if (!$validTime) {
-					$allowed = false;
-				}
-
-				if (!$allowed) {
-					$app->response->setStatusCode(401, "Unauthorized");
-					$app->response->setContent("Access denied");
-					$app->response->send();
-
-					return false;
-				}
 			}
 		});
 	}
