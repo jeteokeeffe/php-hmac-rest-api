@@ -32,6 +32,7 @@ $ch = curl_init();
 
 curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
 curl_setopt($ch, CURLOPT_URL, $host);
+// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
 curl_setopt($ch, CURLOPT_POST, TRUE);
 curl_setopt($ch, CURLOPT_HEADER, TRUE);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -56,8 +57,8 @@ if ($result === FALSE) {
 curl_close($ch);
 
 
-function buildMessage($time, $id, array $data) {
-	return $time . $id . implode($data);
+function buildMessage($time, $id, $data) {
+	return $time . $id . http_build_query($data, '', '&');
 }
 
 ?>

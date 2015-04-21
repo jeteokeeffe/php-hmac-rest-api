@@ -100,6 +100,7 @@ class Micro extends \Phalcon\Mvc\Micro implements IRun {
 	 * @param file			file thats array of routes to load
 	 */
 	public function setRoutes($file) {
+		
 		if (!file_exists($file)) {
 			throw new \Exception('Unable to load routes file');
 		}
@@ -108,44 +109,53 @@ class Micro extends \Phalcon\Mvc\Micro implements IRun {
 
 		if (!empty($routes)) {
 			foreach($routes as $obj) {
+				
+			    // Which pages are allowed to skip authentication
+                            if (isset($obj['authentication']) && $obj['authentication'] === false) {
 
-                // Which pages are allowed to skip authentication
-                if (isset($obj['authentication']) && $obj['authentication'] === false) {
+                            $method = strtolower($obj['method']);
 
-                    $method = strtolower($obj['method']);
+                                if (! isset($this->_noAuthPages[$method])) {
+                                    $this->_noAuthPages[$method] = array();
+                                }
 
-                    if (! isset($this->_noAuthPages[$method])) {
-                        $this->_noAuthPages[$method] = array();
-                    }
+                                $this->_noAuthPages[$method][] = $obj['route'];
+                            }
 
-                    $this->_noAuthPages[$method][] = $obj['route'];
-                }
+                            $controllerName = class_exists($obj['handler'][0]) ? $obj['handler'][0] : false;
+                            if (!$controllerName) {
+                                throw new \Exception("Wrong controller name in routes ({$obj['handler'][0]})");
+                            }
+                            
+                            $controller = new $controllerName;
+                            $controllerAction = $obj['handler'][1];
 
-				switch($obj['method']) {
-					case 'get':
-						$this->get($obj['route'], $obj['handler']);
-						break;
-					case 'post':
-						$this->post($obj['route'], $obj['handler']);
-						break;
-					case 'delete':
-						$this->delete($obj['route'], $obj['handler']);
-						break;
-					case 'put':
-						$this->put($obj['route'], $obj['handler']);
-						break;
-					case 'head':
-						$this->head($obj['route'], $obj['handler']);
-						break;
-					case 'options':
-						$this->options($obj['route'], $obj['handler']);
-						break;
-					case 'patch':
-						$this->patch($obj['route'], $obj['handler']);
-						break;
-					default:
-						break;
-				}
+                            switch($obj['method']) {
+                                case 'get':
+                                        $this->get($obj['route'], array($controller, $controllerAction));
+                                        break;
+                                case 'post':
+                                        $this->post($obj['route'], array($controller, $controllerAction));
+                                        break;
+                                case 'delete':
+                                        $this->delete($obj['route'], array($controller, $controllerAction));
+                                        break;
+                                case 'put':
+                                        $this->put($obj['route'], array($controller, $controllerAction));
+                                        break;
+                                case 'head':
+                                        $this->head($obj['route'], array($controller, $controllerAction));
+                                        break;
+                                case 'options':
+                                        $this->options($obj['route'], array($controller, $controllerAction));
+                                        break;
+                                case 'patch':
+                                        $this->patch($obj['route'], array($controller, $controllerAction));
+                                        break;
+                                default:
+                                        break;
+                            }
+                            
 			}
 		}
 	}
