@@ -61,7 +61,7 @@ class Micro extends \Phalcon\Mvc\Micro implements IRun {
 			if ($type == 'mysql') {
 				$connection =  new \Phalcon\Db\Adapter\Pdo\Mysql($creds);
 			} else if ($type == 'postgres') {
-				$connection =  new \Phalcon\Db\Adapter\Pdo\Postgesql($creds);
+				$connection =  new \Phalcon\Db\Adapter\Pdo\Postgresql($creds);
 			} else if ($type == 'sqlite') {
 				$connection =  new \Phalcon\Db\Adapter\Pdo\Sqlite($creds);
 			} else {
