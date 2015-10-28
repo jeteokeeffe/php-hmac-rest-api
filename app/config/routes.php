@@ -34,4 +34,22 @@ $routes[] = [
     'authentication' => FALSE
 ];
 
+$routes[] = [
+	'method' => 'get', 
+	'route' => '/ping', 
+	'handler' => ['Controllers\ExampleController', 'getAction']
+];
+
+$routes[] = [
+	'method' => 'put', 
+	'route' => '/ping', 
+	'handler' => ['Controllers\ExampleController', 'putAction']
+];
+
+$routes[] = [
+	'method' => 'delete', 
+	'route' => '/ping', 
+	'handler' => ['Controllers\ExampleController', 'deleteAction']
+];
+
 return $routes;
