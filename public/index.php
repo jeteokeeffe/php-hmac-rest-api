@@ -58,7 +58,7 @@ try {
                 break;
 
             default: // PUT AND DELETE
-                $data = file_get_contents('php://input');
+                parse_str(file_get_contents('php://input'), $data);
                 break;
         }
 	$message = new \Micro\Messages\Auth($clientId, $time, $hash, $data);
