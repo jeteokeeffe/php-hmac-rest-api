@@ -27,11 +27,23 @@ $message = buildMessage($time, $id, $data);
 $hash = hash_hmac('sha256', $message, $privateKey);
 $headers = ['API_ID: ' . $id, 'API_TIME: ' . $time, 'API_HASH: ' . $hash];
 
-
+$method = 'POST';
 $ch = curl_init();
 
 curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
 curl_setopt($ch, CURLOPT_URL, $host);
+
+switch($method) {
+    case 'POST':
+    case 'GET':
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+       break;
+    default:
+        $data = http_build_query($data);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+        break;
+}
+
 // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
 curl_setopt($ch, CURLOPT_POST, TRUE);
 curl_setopt($ch, CURLOPT_HEADER, TRUE);
