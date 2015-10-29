@@ -35,17 +35,22 @@ curl_setopt($ch, CURLOPT_URL, $host);
 
 switch($method) {
     case 'POST':
-       break;
+    	curl_setopt($ch, CURLOPT_POST, TRUE);
+    	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    	break;
+    case 'GET':
+    	break;
     default:
         $data = http_build_query($data);
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
         break;
 }
 
 // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
-curl_setopt($ch, CURLOPT_POST, TRUE);
+
 curl_setopt($ch, CURLOPT_HEADER, TRUE);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 curl_setopt($ch, CURLINFO_HEADER_OUT, TRUE);
