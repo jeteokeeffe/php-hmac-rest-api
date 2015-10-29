@@ -35,8 +35,6 @@ curl_setopt($ch, CURLOPT_URL, $host);
 
 switch($method) {
     case 'POST':
-    case 'GET':
-        curl_setopt($ch, CURLOPT_POST, TRUE);
        break;
     default:
         $data = http_build_query($data);
