@@ -44,35 +44,41 @@ try {
 	$time = $app->request->getHeader('API_TIME');
 	$hash = $app->request->getHeader('API_HASH');
 
-	$privateKey = Api::findFirst($clientId)->private_key;
-	
-        switch ($_SERVER['REQUEST_METHOD']) {
-            
-            case 'GET':
-                $data = $_GET;
-                unset($data['_url']); // clean for hashes comparison
-                break;
-            
-            case 'POST':
-                $data = $_POST;
-                break;
+	$ApiClient = Api::findFirst($clientId);
+	$privateKey = $ApiClient->private_key;
+	$clientStatus = $ApiClient->status;
 
-            default: // PUT AND DELETE
-                parse_str(file_get_contents('php://input'), $data);
-                break;
-        }
-	$message = new \Micro\Messages\Auth($clientId, $time, $hash, $data);
 
-	// Setup HMAC Authentication callback to validate user before routing message
-	// Failure to validate will stop the process before going to proper Restful Route
-	$app->setEvents(new \Events\Api\HmacAuthenticate($message, $privateKey));	
+	if($clientStatus == 'INACTIVE'){
+		//client not authorized
+		$app->response->setStatusCode(401, "Unauthorized");
+		$app->response->setContent("Access denied");
+		$app->response->send();
+	}else{
+		switch($_SERVER['REQUEST_METHOD']){
+			case 'GET':
+				$data = $_GET;
+				unset($data['_url']); // clean for hashes comparison
+				break;
+			case 'POST':
+				$data = $_POST;
+				break;
+			default: // PUT AND DELETE
+				parse_str(file_get_contents('php://input'), $data);
+				break;
+		}
+		$message = new \Micro\Messages\Auth($clientId, $time, $hash, $data);
 
-	// Setup RESTful Routes
-	$app->setRoutes($routes);
+		// Setup HMAC Authentication callback to validate user before routing message
+		// Failure to validate will stop the process before going to proper Restful Route
+		$app->setEvents(new \Events\Api\HmacAuthenticate($message, $privateKey));
 
-	// Boom, Run
-	$app->run();
+		// Setup RESTful Routes
+		$app->setRoutes($routes);
 
+		// Boom, Run
+		$app->run();
+	}
 } catch(Exception $e) {
 	// Do Something I guess, return Server Error message
 	$app->response->setStatusCode(500, "Server Error");
