@@ -43,6 +43,12 @@ try {
 	$clientId = $app->request->getHeader('API_ID');
 	$time = $app->request->getHeader('API_TIME');
 	$hash = $app->request->getHeader('API_HASH');
+	if(!$clientId && !$time && !$hash){
+		$headers = getallheaders();
+		$clientId = isset($headers['API_ID']) ? $headers['API_ID'] : null;
+		$time = isset($headers['API_TIME']) ? $headers['API_TIME'] : null;
+		$hash = isset($headers['API_HASH']) ? $headers['API_HASH'] : null;
+	}
 
 	$privateKey = Api::findFirst($clientId)->private_key;
 	
