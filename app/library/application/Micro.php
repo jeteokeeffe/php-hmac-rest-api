@@ -55,7 +55,8 @@ class Micro extends \Phalcon\Mvc\Micro implements IRun {
 				'host' => $di->get('config')->database->host,
 				'username' => $di->get('config')->database->username,
 				'password' => $di->get('config')->database->password,
-				'dbname' => $di->get('config')->database->name
+				'dbname' => $di->get('config')->database->name,
+				'port' => $di->get('config')->database->port
 			);
 
 			if ($type == 'mysql') {
